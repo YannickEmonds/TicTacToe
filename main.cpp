@@ -1,6 +1,7 @@
 #include <iostream>
 #include "board.h"
 
+
 int main()
 {
     Board board;
@@ -17,11 +18,13 @@ int main()
         }
         catch (std::out_of_range& e)
         {
-            e.what();
+            std::cout << e.what();
+            continue;
         }
         catch (std::logic_error& e)
         {
-            e.what();
+            std::cout << e.what();
+            continue;
         }
 
         board.checkForWin();
