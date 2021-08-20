@@ -11,7 +11,26 @@ bool Board::stillPlaying() const
 
 void Board::displayBoard() const
 {
+    const std::string rowline(4*width -1, '-');
+    for (std::size_t row=0; row<width; ++row)
+    {
+        for (std::size_t col=0; col<width; ++col)
+        {
+            std::string fieldValue {' '};
+            if (boardValues[row*width + col] == -1)
+                fieldValue = 'x';
+            else if (boardValues[row*width + col] == 1)
+                fieldValue = 'o';
+            std::cout << ' ' << fieldValue << ' ';
+            if (col < width-1)
+                std::cout << '|';
+            else
+                std::cout << '\n';
+        }
 
+        if (row < width-1)
+            std::cout << rowline << '\n';
+    }
 }
 
 void Board::setSquare(const std::size_t pos, const unsigned playerId)

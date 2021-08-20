@@ -10,7 +10,7 @@ class Board
     const std::size_t width;
     std::vector<int> boardValues;
 public:
-    Board(const std::size_t w = 3) : width(w), boardValues(w, 0) {}
+    Board(const std::size_t w = 3) : width(w), boardValues(w*w, 0) {}
 
     bool stillPlaying() const;
     void displayBoard() const;
