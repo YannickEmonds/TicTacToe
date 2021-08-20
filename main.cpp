@@ -2,9 +2,14 @@
 #include "board.h"
 
 
-int main()
+int main(int argc, char * argv[])
 {
-    Board board;
+    // TODO: make this nicer
+    int width = 3;
+    if (argc > 1)
+        width = atoi(argv[1]);
+
+    Board board(width);
 
     int playerId {0};
     int pos {0};
