@@ -4,6 +4,34 @@
 #include <iostream>
 
 
+Board::Board(const std::size_t w)
+    : width(w),
+      boardValues(w*w, 0)
+{
+    for (std::size_t i=0; i<width; ++i)
+    {
+        std::size_t x {i*30};
+        for (std::size_t j=0; j<width; ++j)
+        {
+            std::size_t y {j*30};
+            QPushButton* newButton = new QPushButton("", this);
+            newButton->setGeometry(x, y, 30, 30);
+            connect(newButton, SIGNAL (clicked()), this, SLOT (slotButtonClicked()));
+            buttons.push_back(newButton);
+        }
+    }
+}
+
+void Board::slotButtonClicked()
+{
+        QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
+        char playerMark = currentPlayerId == 0 ? 'x' : 'o';
+        clickedButton->setText(playerMark);
+        clickedButton->setEnabled(false);
+        checkForWin();
+        currentPlayerId = (currentPlayerId + 1) % 2;
+}
+
 bool Board::stillPlaying() const
 {
     return !isFinished;
@@ -57,7 +85,12 @@ void Board::setSquare(const std::size_t pos, const unsigned playerId)
 
 void Board::checkForWin()
 {
+    // this should emit a signal
     isFinished = winningRow() || winningColumn() || winningDiagonal();
+    if (isFinished)
+    {
+        emit gameFinished(currentPlayerId);
+    }
 }
 
 bool Board::winningRow() const

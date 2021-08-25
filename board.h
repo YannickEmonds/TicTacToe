@@ -3,12 +3,25 @@
 #include <cstddef>
 #include <vector>
 
+#include <QFrame>
+#include <QVector>
+#include <QPushButton>
 
-class Board
+
+class Board : public QFrame
 {
+    Q_OBJECT
+
+private:
     bool isFinished {false};
     const std::size_t width;
     std::vector<int> boardValues;
+    QVector<QPushButton*> buttons;
+    unsigned currentPlayerId {0};
+private slots:
+    void slotButtonClicked();
+signals:
+    void gameFinished(unsigned playerId);
 public:
     Board(const std::size_t w = 3) : width(w), boardValues(w*w, 0) {}
 

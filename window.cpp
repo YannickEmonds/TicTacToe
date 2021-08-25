@@ -18,6 +18,9 @@ Window::Window(const std::size_t width, QWidget *parent)
     layout->addWidget(board, 1, 0);
     setLayout(layout);
 
+    connect(board, SIGNAL (gameFinished(int)), this, SLOT (gameWon(int)));
+}
+
 //    for (std::size_t i=0; i<boardWidth; ++i)
 //    {
 //        std::size_t x {10 + i*30};
@@ -41,7 +44,7 @@ Window::Window(const std::size_t width, QWidget *parent)
 //    connect(this, SIGNAL (counterReached()), QApplication::instance(), SLOT (quit()));
 
 //    connect(m_button, SIGNAL (clicked()), QApplication::instance(), SLOT (quit()));
-}
+//}
 
 QLabel *Window::createLabel(const QString &text)
 {

@@ -16,6 +16,8 @@ public:
     explicit Window(const std::size_t width, QWidget *parent = nullptr);
 private slots:
     void slotButtonClicked();
+public slots:
+    void gameWon(unsigned playerId);
 private:
     QLabel* createLabel(const QString &text);
 
