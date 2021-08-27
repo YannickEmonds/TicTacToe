@@ -20,6 +20,8 @@ private:
     unsigned currentPlayerId {0};
 private slots:
     void slotButtonClicked();
+public slots:
+    void slotRestartGame();
 signals:
     void gameFinished(unsigned playerId);
     void nextTurn(unsigned playerId);

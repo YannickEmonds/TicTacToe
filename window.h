@@ -16,6 +16,7 @@ public:
     explicit Window(const std::size_t width, QWidget *parent = nullptr);
 private slots:
     void slotNextTurn(unsigned playerId);
+    void slotRestartGame();
 public slots:
     void gameWon(const unsigned playerId);
 private:
@@ -24,6 +25,7 @@ private:
     const std::size_t boardWidth;
     Board *board;
     QLabel *playerPrompt;
+    QPushButton *restartGameButton;
 //    unsigned currentPlayerId {0};
     // TODO: clean up raw pointers
 //    std::vector<QPushButton*> buttons;

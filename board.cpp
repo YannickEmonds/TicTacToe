@@ -40,6 +40,17 @@ void Board::slotButtonClicked()
         currentPlayerId = (currentPlayerId + 1) % 2;
 }
 
+void Board::slotRestartGame()
+{
+    for (std::size_t i=0; i<width*width; ++i)
+    {
+        boardValues[i] = 0;
+        buttons[i]->setText("");
+        buttons[i]->setEnabled(true);
+        currentPlayerId = 0;
+    }
+}
+
 bool Board::stillPlaying() const
 {
     return !isFinished;

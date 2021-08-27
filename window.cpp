@@ -22,13 +22,17 @@ Window::Window(const std::size_t width, QWidget *parent)
     setFixedSize(windowSizeX, windowSizeY);
 
     playerPrompt = createLabel(tr("Player 1, it's your turn"));
+    restartGameButton = new QPushButton("Restart game", this);
     QGridLayout* layout = new QGridLayout;
     layout->addWidget(playerPrompt, 0, 0);
     layout->addWidget(board, 1, 0, 5, 1);
+    layout->addWidget(restartGameButton, 6, 0);
     setLayout(layout);
 
     connect(board, SIGNAL (nextTurn(unsigned)), this, SLOT (slotNextTurn(unsigned)));
     connect(board, SIGNAL (gameFinished(unsigned)), this, SLOT (gameWon(unsigned)));
+    connect(restartGameButton, SIGNAL (clicked()), board, SLOT (slotRestartGame()));
+    connect(restartGameButton, SIGNAL (clicked()), this, SLOT (slotRestartGame()));
 }
 
 //    for (std::size_t i=0; i<boardWidth; ++i)
@@ -75,6 +79,11 @@ void Window::slotNextTurn(unsigned playerId)
 //    clickedButton->setText(playerMark);
 //    clickedButton->setEnabled(false);
 //    Game::checkBoardForWin();
+}
+
+void Window::slotRestartGame()
+{
+    playerPrompt->setText("Player 1, it's your turn.");
 }
 
 void Window::gameWon(const unsigned playerId)
