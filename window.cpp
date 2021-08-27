@@ -76,17 +76,11 @@ void Window::slotNextTurn(unsigned playerId)
     playerId = (playerId + 1) % 2 + 1;
     const std::string message {"Player " + std::to_string(playerId) + ", it's your turn."};
     playerPrompt->setText(QString::fromStdString(message));
-//    QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
-//    // check syntax
-//    const unsigned playerId {Game::getCurrentPlayerId()};
-//    char playerMark = playerId == 0 ? 'x' : 'o';
-//    clickedButton->setText(playerMark);
-//    clickedButton->setEnabled(false);
-//    Game::checkBoardForWin();
 }
 
 void Window::slotRestartGame()
 {
+    emit signalRestartGame();
     playerPrompt->setText("Player 1, it's your turn.");
 }
 

@@ -19,6 +19,8 @@ private slots:
     void slotRestartGame();
 public slots:
     void gameWon(const unsigned playerId);
+signals:
+    void signalRestartGame();
 private:
     QLabel* createLabel(const QString &text);
 

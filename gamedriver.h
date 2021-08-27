@@ -1,6 +1,7 @@
 #ifndef GAMEDRIVER_H
 #define GAMEDRIVER_H
 
+#include <cstddef>
 #include <QWidget>
 #include "window.h"
 #include "startwindow.h"
@@ -13,8 +14,9 @@ public:
 
 signals:
 
-public slots:
-
+private slots:
+    void slotStartNewGame(const std::size_t width);
+    void slotRestart();
 private:
     Window* mainWindow;
     StartWindow* startWindow;

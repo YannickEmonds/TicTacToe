@@ -2,6 +2,7 @@
 #include "board.h"
 #include "window.h"
 #include "startwindow.h"
+#include "gamedriver.h"
 #include <QApplication>
 
 
@@ -14,11 +15,13 @@ int main(int argc, char * argv[])
 
     QApplication app(argc, argv);
 
-    StartWindow start;
-    start.show();
-
-    Window game(width);
+    GameDriver game;
     game.show();
+//    StartWindow start;
+//    start.show();
+
+//    Window game(width);
+//    game.show();
 
     return app.exec();
 }
