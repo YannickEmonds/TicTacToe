@@ -15,16 +15,16 @@ class Window : public QWidget
 public:
     explicit Window(const std::size_t width, QWidget *parent = nullptr);
 private slots:
-    void slotButtonClicked();
+    void slotNextTurn(unsigned playerId);
 public slots:
-    void gameWon(unsigned playerId);
+    void gameWon(const unsigned playerId);
 private:
     QLabel* createLabel(const QString &text);
 
     const std::size_t boardWidth;
     Board *board;
     QLabel *playerPrompt;
-    unsigned currentPlayerId {0};
+//    unsigned currentPlayerId {0};
     // TODO: clean up raw pointers
 //    std::vector<QPushButton*> buttons;
 //    QPushButton *m_button;

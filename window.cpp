@@ -3,22 +3,32 @@
 #include <QApplication>
 #include <QLayout>
 #include <QLabel>
+#include <string>
+#include <iostream>
+#include <algorithm>
 
 Window::Window(const std::size_t width, QWidget *parent)
-    : boardWidth(width),
-      QWidget(parent)
+    : QWidget(parent),
+      boardWidth(width),
+      board(new Board(width, this))
 {
+    std::cerr << "Constructing Window.\n";
     // 30 per button + 10 per margin at each side
-    const std::size_t windowSize {30*boardWidth + 20};
-    setFixedSize(windowSize, windowSize+30);
+    QFont font("times", 24);
+    QFontMetrics fm(font);
+    const QSize textSize = fm.size(Qt::TextSingleLine, "Player 1, it's your turn");
+    const std::size_t windowSizeX = std::max(30*boardWidth + 20, static_cast<std::size_t>(textSize.width()));
+    const std::size_t windowSizeY {30*boardWidth + 20 + textSize.height()};
+    setFixedSize(windowSizeX, windowSizeY);
 
     playerPrompt = createLabel(tr("Player 1, it's your turn"));
     QGridLayout* layout = new QGridLayout;
     layout->addWidget(playerPrompt, 0, 0);
-    layout->addWidget(board, 1, 0);
+    layout->addWidget(board, 1, 0, 5, 1);
     setLayout(layout);
 
-    connect(board, SIGNAL (gameFinished(int)), this, SLOT (gameWon(int)));
+    connect(board, SIGNAL (nextTurn(unsigned)), this, SLOT (slotNextTurn(unsigned)));
+    connect(board, SIGNAL (gameFinished(unsigned)), this, SLOT (gameWon(unsigned)));
 }
 
 //    for (std::size_t i=0; i<boardWidth; ++i)
@@ -53,10 +63,11 @@ QLabel *Window::createLabel(const QString &text)
     return label;
 }
 
-void Window::slotButtonClicked()
+void Window::slotNextTurn(unsigned playerId)
 {
-    currentPlayerId = (currentPlayerId + 1) % 2;
-    playerPrompt->setText("Player " + currentPlayerId + ", it's your turn.");
+    playerId = (playerId + 1) % 2 + 1;
+    const std::string message {"Player " + std::to_string(playerId) + ", it's your turn."};
+    playerPrompt->setText(QString::fromStdString(message));
 //    QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
 //    // check syntax
 //    const unsigned playerId {Game::getCurrentPlayerId()};
@@ -64,4 +75,10 @@ void Window::slotButtonClicked()
 //    clickedButton->setText(playerMark);
 //    clickedButton->setEnabled(false);
 //    Game::checkBoardForWin();
+}
+
+void Window::gameWon(const unsigned playerId)
+{
+    const std::string message {"Player " + std::to_string(playerId) + " won. Congratulations!"};
+    playerPrompt->setText(QString::fromStdString(message));
 }

@@ -22,8 +22,10 @@ private slots:
     void slotButtonClicked();
 signals:
     void gameFinished(unsigned playerId);
+    void nextTurn(unsigned playerId);
 public:
-    Board(const std::size_t w = 3) : width(w), boardValues(w*w, 0) {}
+//    Board(const std::size_t w = 3) : width(w), boardValues(w*w, 0) {}
+    Board(const std::size_t w = 3, QWidget *parent = nullptr);
 
     bool stillPlaying() const;
     void displayBoard() const;

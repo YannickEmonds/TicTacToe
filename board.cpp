@@ -2,12 +2,15 @@
 #include <stdexcept>
 #include <numeric>
 #include <iostream>
+#include <QString>
 
 
-Board::Board(const std::size_t w)
-    : width(w),
+Board::Board(const std::size_t w, QWidget *parent)
+    : QFrame(parent),
+      width(w),
       boardValues(w*w, 0)
 {
+    std::cerr << "Constructing Board.\n";
     for (std::size_t i=0; i<width; ++i)
     {
         std::size_t x {i*30};
@@ -25,9 +28,14 @@ Board::Board(const std::size_t w)
 void Board::slotButtonClicked()
 {
         QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
-        char playerMark = currentPlayerId == 0 ? 'x' : 'o';
+        QString playerMark = currentPlayerId == 0 ? "x" : "o";
         clickedButton->setText(playerMark);
         clickedButton->setEnabled(false);
+
+        const int pos = buttons.indexOf(clickedButton);
+        const int valueToSet = currentPlayerId == 0 ? -1 : 1;
+        boardValues[pos] = valueToSet;
+
         checkForWin();
         currentPlayerId = (currentPlayerId + 1) % 2;
 }
@@ -90,6 +98,10 @@ void Board::checkForWin()
     if (isFinished)
     {
         emit gameFinished(currentPlayerId);
+    }
+    else
+    {
+        emit nextTurn(currentPlayerId);
     }
 }
 
