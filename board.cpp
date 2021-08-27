@@ -98,6 +98,10 @@ void Board::checkForWin()
     if (isFinished)
     {
         emit gameFinished(currentPlayerId);
+        for (auto button : buttons)
+        {
+            button->setEnabled(false);
+        }
     }
     else
     {

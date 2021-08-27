@@ -79,6 +79,6 @@ void Window::slotNextTurn(unsigned playerId)
 
 void Window::gameWon(const unsigned playerId)
 {
-    const std::string message {"Player " + std::to_string(playerId) + " won. Congratulations!"};
+    const std::string message {"Player " + std::to_string(playerId+1) + " won. Congratulations!"};
     playerPrompt->setText(QString::fromStdString(message));
 }
