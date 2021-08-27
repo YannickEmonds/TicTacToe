@@ -1,7 +1,7 @@
 #include "window.h"
 #include "game.h"
 #include <QApplication>
-#include <QLayout>
+#include <QVBoxLayout>
 #include <QLabel>
 #include <string>
 #include <iostream>
@@ -16,17 +16,21 @@ Window::Window(const std::size_t width, QWidget *parent)
     // 30 per button + 10 per margin at each side
     QFont font("times", 24);
     QFontMetrics fm(font);
-    const QSize textSize = fm.size(Qt::TextSingleLine, "Player 1, it's your turn");
-    const std::size_t windowSizeX = std::max(30*boardWidth + 20, static_cast<std::size_t>(textSize.width()));
-    const std::size_t windowSizeY {30*boardWidth + 20 + textSize.height()};
+    const QSize textSize = fm.size(Qt::TextSingleLine, "Player 1, it's your turn.");
+    restartGameButton = new QPushButton("Restart game", this);
+    const std::size_t windowSizeX = std::max(30*boardWidth + 50, static_cast<std::size_t>(textSize.width()));
+    const std::size_t windowSizeY {30*boardWidth + 20 + textSize.height() + restartGameButton->height()};
     setFixedSize(windowSizeX, windowSizeY);
 
-    playerPrompt = createLabel(tr("Player 1, it's your turn"));
-    restartGameButton = new QPushButton("Restart game", this);
-    QGridLayout* layout = new QGridLayout;
-    layout->addWidget(playerPrompt, 0, 0);
-    layout->addWidget(board, 1, 0, 5, 1);
-    layout->addWidget(restartGameButton, 6, 0);
+    playerPrompt = createLabel(tr("Player 1, it's your turn."));
+    QVBoxLayout* layout = new QVBoxLayout();
+//    layout->setContentsMargins(5, 5, 5, 5);
+    layout->addWidget(playerPrompt);
+    layout->addWidget(board, 10); //, Qt::AlignHCenter);
+//    layout->setAlignment(board, Qt::AlignHCenter);
+//    layout->addSpacing(20);
+    layout->addWidget(restartGameButton);
+//    layout->setStretch(1, 100);
     setLayout(layout);
 
     connect(board, SIGNAL (nextTurn(unsigned)), this, SLOT (slotNextTurn(unsigned)));
