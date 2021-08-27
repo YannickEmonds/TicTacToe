@@ -6,8 +6,12 @@ QT = core gui widgets
 SOURCES += \
     main.cpp \
     board.cpp \
-    window.cpp
+    window.cpp \
+    startwindow.cpp \
+    gamedriver.cpp
 
 HEADERS += \
     board.h \
-    window.h
+    window.h \
+    startwindow.h \
+    gamedriver.h
