@@ -14,6 +14,7 @@ class Window : public QWidget
     Q_OBJECT
 public:
     explicit Window(const std::size_t width, QWidget *parent = nullptr);
+    void resizeBoard(const std::size_t newWidth);
 private slots:
     void slotNextTurn(unsigned playerId);
     void slotRestartGame();

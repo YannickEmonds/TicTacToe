@@ -5,24 +5,48 @@
 #include <QString>
 
 
+void initializeButtons(Board* board, const int buttonSize = 30)
+{
+    const std::size_t width = board->getWidth();
+    for (std::size_t i=0; i<width; ++i)
+    {
+        std::size_t x {i*buttonSize};
+        for (std::size_t j=0; j<width; ++j)
+        {
+            std::size_t y {j*buttonSize};
+            QPushButton* newButton = new QPushButton("", board);
+            newButton->setGeometry(x, y, buttonSize, buttonSize);
+            Board::connect(newButton, SIGNAL (clicked()), board, SLOT (slotButtonClicked()));
+            board->addButton(newButton);
+        }
+    }
+}
+
+
 Board::Board(const std::size_t w, QWidget *parent)
     : QFrame(parent),
       width(w),
       boardValues(w*w, 0)
 {
     std::cerr << "Constructing Board.\n";
-    for (std::size_t i=0; i<width; ++i)
-    {
-        std::size_t x {i*30};
-        for (std::size_t j=0; j<width; ++j)
-        {
-            std::size_t y {j*30};
-            QPushButton* newButton = new QPushButton("", this);
-            newButton->setGeometry(x, y, 30, 30);
-            connect(newButton, SIGNAL (clicked()), this, SLOT (slotButtonClicked()));
-            buttons.push_back(newButton);
-        }
-    }
+    initializeButtons(this, 30);
+//    for (std::size_t i=0; i<width; ++i)
+//    {
+//        std::size_t x {i*30};
+//        for (std::size_t j=0; j<width; ++j)
+//        {
+//            std::size_t y {j*30};
+//            QPushButton* newButton = new QPushButton("", this);
+//            newButton->setGeometry(x, y, 30, 30);
+//            connect(newButton, SIGNAL (clicked()), this, SLOT (slotButtonClicked()));
+//            buttons.push_back(newButton);
+//        }
+//    }
+}
+
+void Board::addButton(QPushButton *newButton)
+{
+    buttons.append(newButton);
 }
 
 void Board::slotButtonClicked()
@@ -190,4 +214,17 @@ bool Board::winningDiagonal() const
     }
 
     return false;
+}
+
+std::size_t Board::getWidth() const
+{
+    return width;
+}
+
+void Board::resize(const std::size_t newWidth)
+{
+    width = newWidth;
+    boardValues.resize(width, 0);
+    buttons.resize(width);
+    initializeButtons(this);
 }

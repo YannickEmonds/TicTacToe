@@ -1,4 +1,5 @@
 #include "gamedriver.h"
+#include <iostream>
 
 GameDriver::GameDriver(QWidget *parent) : QWidget(parent)
 {
@@ -15,13 +16,16 @@ GameDriver::GameDriver(QWidget *parent) : QWidget(parent)
 
 void GameDriver::slotStartNewGame(const std::size_t width)
 {
-    mainWindow = new Window(width, this);
+//    mainWindow = new Window(width, this);
+    mainWindow->resizeBoard(width);
     startWindow->hide();
     mainWindow->show();
 }
 
 void GameDriver::slotRestart()
 {
-    delete mainWindow;
+//    delete mainWindow;
+    std::cerr << "restart signal received\n";
+    mainWindow->hide();
     startWindow->show();
 }

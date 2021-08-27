@@ -14,7 +14,7 @@ class Board : public QFrame
 
 private:
     bool isFinished {false};
-    const std::size_t width;
+    std::size_t width;
     std::vector<int> boardValues;
     QVector<QPushButton*> buttons;
     unsigned currentPlayerId {0};
@@ -28,6 +28,7 @@ signals:
 public:
 //    Board(const std::size_t w = 3) : width(w), boardValues(w*w, 0) {}
     Board(const std::size_t w = 3, QWidget *parent = nullptr);
+    void addButton(QPushButton* newButton);
 
     bool stillPlaying() const;
     void displayBoard() const;
@@ -36,6 +37,8 @@ public:
     bool winningRow() const;
     bool winningColumn() const;
     bool winningDiagonal() const;
+    std::size_t getWidth() const;
+    void resize(const std::size_t newWidth);
 };
 
 
