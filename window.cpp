@@ -7,35 +7,36 @@
 #include <iostream>
 #include <algorithm>
 
+std::size_t initMaximumPromptWidth()
+{
+    QFont font;
+    QFontMetrics fm(font);
+    const QSize textSize = fm.size(Qt::TextSingleLine, "Player 1 won. Congratulations!");
+    return textSize.width();
+}
+
 Window::Window(const std::size_t width, QWidget *parent)
     : QWidget(parent),
+      maximumPromptWidth(initMaximumPromptWidth()),
       boardWidth(width),
       board(new Board(width, this))
 {
     std::cerr << "Constructing Window.\n";
-    QFont font;
-    QFontMetrics fm(font);
-    const QSize textSize = fm.size(Qt::TextSingleLine, "Player 1, it's your turn.");
-    std::cerr << textSize.width() << ' ' << textSize.height() << '\n';
     restartGameButton = new QPushButton("Restart game", this);
-    const std::size_t windowSizeX = std::max(30*boardWidth, static_cast<std::size_t>(textSize.width())) + 22;
-    const std::size_t windowSizeY {30*boardWidth + 22 + textSize.height() + restartGameButton->height()};
+    playerPrompt = createLabel(tr("Player 1, it's your turn."));
+    const std::size_t windowSizeX = std::max(30*boardWidth, maximumPromptWidth) + 22;
+    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height()};
     resize(windowSizeX, windowSizeY);
 
-    playerPrompt = createLabel(tr("Player 1, it's your turn."));
     QVBoxLayout* layout = new QVBoxLayout();
-//    layout->setContentsMargins(5, 5, 5, 5);
+    layout->setSpacing(10);
     layout->addWidget(playerPrompt);
-    layout->addWidget(board); //, Qt::AlignHCenter);
-//    layout->setAlignment(board, Qt::AlignHCenter);
-//    layout->addSpacing(20);
+    layout->addWidget(board, 0, Qt::AlignHCenter);
     layout->addWidget(restartGameButton);
-//    layout->setStretch(1, 100);
     setLayout(layout);
 
     connect(board, SIGNAL (nextTurn(unsigned)), this, SLOT (slotNextTurn(unsigned)));
     connect(board, SIGNAL (gameFinished(unsigned)), this, SLOT (gameWon(unsigned)));
-//    connect(restartGameButton, SIGNAL (clicked()), board, SLOT (slotRestartGame()));
     connect(restartGameButton, SIGNAL (clicked()), this, SLOT (slotRestartGame()));
 }
 
@@ -58,8 +59,8 @@ void Window::resizeBoard(const std::size_t newWidth)
     boardWidth = newWidth;
     std::cerr << playerPrompt->width() << ' ' << playerPrompt->height() << ' ' << restartGameButton->height() << '\n';
 
-    const std::size_t windowSizeX = std::max(30*boardWidth, static_cast<std::size_t>(playerPrompt->width())) + 22;
-    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height()};
+    const std::size_t windowSizeX = std::max(30*boardWidth, maximumPromptWidth) + 22;
+    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height() + 20};
     std::cerr << windowSizeX << ' ' << windowSizeY << '\n';
     setFixedSize(windowSizeX, windowSizeY);
     updateGeometry();
@@ -67,15 +68,15 @@ void Window::resizeBoard(const std::size_t newWidth)
 
 QSize Window::sizeHint() const
 {
-    const std::size_t windowSizeX = std::max(30*boardWidth, static_cast<std::size_t>(playerPrompt->width())) + 22;
-    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height()};
+    const std::size_t windowSizeX = std::max(30*boardWidth, maximumPromptWidth) + 22;
+    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height() + 20};
     return QSize(windowSizeX, windowSizeY);
 }
 
 QSize Window::minimumSizeHint() const
 {
-    const std::size_t windowSizeX = std::max(30*boardWidth, static_cast<std::size_t>(playerPrompt->width())) + 22;
-    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height()};
+    const std::size_t windowSizeX = std::max(30*boardWidth, maximumPromptWidth) + 22;
+    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height() + 20};
     return QSize(windowSizeX, windowSizeY);
 }
 

@@ -16,7 +16,6 @@ GameDriver::GameDriver(QWidget *parent) : QWidget(parent)
 
 void GameDriver::slotStartNewGame(const std::size_t width)
 {
-//    mainWindow = new Window(width, this);
     mainWindow->resizeBoard(width);
     resize(mainWindow->size());
     updateGeometry();
@@ -26,7 +25,6 @@ void GameDriver::slotStartNewGame(const std::size_t width)
 
 void GameDriver::slotRestart()
 {
-//    delete mainWindow;
     std::cerr << "restart signal received\n";
     resize(startWindow->size());
     updateGeometry();

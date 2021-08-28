@@ -30,18 +30,6 @@ Board::Board(const std::size_t w, QWidget *parent)
 {
     std::cerr << "Constructing Board.\n";
     initializeButtons(this, 30);
-//    for (std::size_t i=0; i<width; ++i)
-//    {
-//        std::size_t x {i*30};
-//        for (std::size_t j=0; j<width; ++j)
-//        {
-//            std::size_t y {j*30};
-//            QPushButton* newButton = new QPushButton("", this);
-//            newButton->setGeometry(x, y, 30, 30);
-//            connect(newButton, SIGNAL (clicked()), this, SLOT (slotButtonClicked()));
-//            buttons.push_back(newButton);
-//        }
-//    }
 }
 
 void Board::addButton(QPushButton *newButton)
@@ -138,7 +126,6 @@ void Board::setSquare(const std::size_t pos, const unsigned playerId)
 
 void Board::checkForWin()
 {
-    // this should emit a signal
     isFinished = winningRow() || winningColumn() || winningDiagonal();
     if (isFinished)
     {
@@ -233,7 +220,6 @@ std::size_t Board::getWidth() const
 
 void Board::resize(const std::size_t newWidth)
 {
-//    buttons.remove(0, width*width);
     for (auto button : buttons)
     {
         delete button;

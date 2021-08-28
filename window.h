@@ -28,14 +28,11 @@ signals:
 private:
     QLabel* createLabel(const QString &text);
 
+    const std::size_t maximumPromptWidth;
     std::size_t boardWidth;
     Board *board;
     QLabel *playerPrompt;
     QPushButton *restartGameButton;
-//    unsigned currentPlayerId {0};
-    // TODO: clean up raw pointers
-//    std::vector<QPushButton*> buttons;
-//    QPushButton *m_button;
 };
 
 #endif // WINDOW_H
