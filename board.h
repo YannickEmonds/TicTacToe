@@ -29,6 +29,8 @@ public:
 //    Board(const std::size_t w = 3) : width(w), boardValues(w*w, 0) {}
     Board(const std::size_t w = 3, QWidget *parent = nullptr);
     void addButton(QPushButton* newButton);
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
 
     bool stillPlaying() const;
     void displayBoard() const;

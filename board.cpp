@@ -49,6 +49,16 @@ void Board::addButton(QPushButton *newButton)
     buttons.append(newButton);
 }
 
+QSize Board::sizeHint() const
+{
+    return QSize(width*50, width*50);
+}
+
+QSize Board::minimumSizeHint() const
+{
+    return QSize(width*30, width*30);
+}
+
 void Board::slotButtonClicked()
 {
         QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
@@ -223,8 +233,15 @@ std::size_t Board::getWidth() const
 
 void Board::resize(const std::size_t newWidth)
 {
+    buttons.remove(0, width*width);
     width = newWidth;
-    boardValues.resize(width, 0);
-    buttons.resize(width);
+    boardValues.resize(width*width, 0);
+    for (int val : boardValues)
+    {
+        val = 0;
+    }
     initializeButtons(this);
+    std::cerr << buttons.size() << ' ' << boardValues.size() << '\n';
+    currentPlayerId = 0;
+    isFinished = false;
 }
