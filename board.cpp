@@ -233,10 +233,15 @@ std::size_t Board::getWidth() const
 
 void Board::resize(const std::size_t newWidth)
 {
-    buttons.remove(0, width*width);
+//    buttons.remove(0, width*width);
+    for (auto button : buttons)
+    {
+        delete button;
+    }
+    buttons.resize(0);
     width = newWidth;
     boardValues.resize(width*width, 0);
-    for (int val : boardValues)
+    for (int &val : boardValues)
     {
         val = 0;
     }

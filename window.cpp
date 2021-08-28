@@ -13,14 +13,13 @@ Window::Window(const std::size_t width, QWidget *parent)
       board(new Board(width, this))
 {
     std::cerr << "Constructing Window.\n";
-    // 30 per button + 10 per margin at each side
-    QFont font("times", 24);
+    QFont font;
     QFontMetrics fm(font);
     const QSize textSize = fm.size(Qt::TextSingleLine, "Player 1, it's your turn.");
     std::cerr << textSize.width() << ' ' << textSize.height() << '\n';
     restartGameButton = new QPushButton("Restart game", this);
-    const std::size_t windowSizeX = std::max(30*boardWidth + 50, static_cast<std::size_t>(textSize.width()));
-    const std::size_t windowSizeY {30*boardWidth + 20 + textSize.height() + restartGameButton->height()};
+    const std::size_t windowSizeX = std::max(30*boardWidth, static_cast<std::size_t>(textSize.width())) + 22;
+    const std::size_t windowSizeY {30*boardWidth + 22 + textSize.height() + restartGameButton->height()};
     resize(windowSizeX, windowSizeY);
 
     playerPrompt = createLabel(tr("Player 1, it's your turn."));
@@ -45,7 +44,6 @@ QLabel *Window::createLabel(const QString &text)
     QLabel *label = new QLabel(text);
     label->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     QFont font;
-//    font.setPointSize(14);
     QFontMetrics fm(font);
     const QSize textSize = fm.size(Qt::TextSingleLine, text);
     label->setFont(font);
@@ -69,15 +67,15 @@ void Window::resizeBoard(const std::size_t newWidth)
 
 QSize Window::sizeHint() const
 {
-    const std::size_t windowSizeX = std::max(30*boardWidth + 50, static_cast<std::size_t>(playerPrompt->width()));
-    const std::size_t windowSizeY {30*boardWidth + 20 + playerPrompt->height() + restartGameButton->height()};
+    const std::size_t windowSizeX = std::max(30*boardWidth, static_cast<std::size_t>(playerPrompt->width())) + 22;
+    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height()};
     return QSize(windowSizeX, windowSizeY);
 }
 
 QSize Window::minimumSizeHint() const
 {
-    const std::size_t windowSizeX = std::max(30*boardWidth + 50, static_cast<std::size_t>(playerPrompt->width()));
-    const std::size_t windowSizeY {30*boardWidth + 20 + playerPrompt->height() + restartGameButton->height()};
+    const std::size_t windowSizeX = std::max(30*boardWidth, static_cast<std::size_t>(playerPrompt->width())) + 22;
+    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height()};
     return QSize(windowSizeX, windowSizeY);
 }
 
