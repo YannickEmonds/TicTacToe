@@ -19,6 +19,7 @@ void GameDriver::slotStartNewGame(const std::size_t width)
 //    mainWindow = new Window(width, this);
     mainWindow->resizeBoard(width);
     resize(mainWindow->size());
+    updateGeometry();
     startWindow->hide();
     mainWindow->show();
 }
@@ -28,6 +29,7 @@ void GameDriver::slotRestart()
 //    delete mainWindow;
     std::cerr << "restart signal received\n";
     resize(startWindow->size());
+    updateGeometry();
     mainWindow->hide();
     startWindow->show();
 }

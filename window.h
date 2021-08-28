@@ -28,7 +28,7 @@ signals:
 private:
     QLabel* createLabel(const QString &text);
 
-    const std::size_t boardWidth;
+    std::size_t boardWidth;
     Board *board;
     QLabel *playerPrompt;
     QPushButton *restartGameButton;

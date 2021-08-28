@@ -57,9 +57,11 @@ void Window::resizeBoard(const std::size_t newWidth)
 {
     board->resize(newWidth);
     board->updateGeometry();
+    boardWidth = newWidth;
     std::cerr << playerPrompt->width() << ' ' << playerPrompt->height() << ' ' << restartGameButton->height() << '\n';
-    const std::size_t windowSizeX = std::max(30*boardWidth + 50, static_cast<std::size_t>(playerPrompt->width()));
-    const std::size_t windowSizeY {30*boardWidth + 20 + playerPrompt->height() + restartGameButton->height()};
+
+    const std::size_t windowSizeX = std::max(30*boardWidth, static_cast<std::size_t>(playerPrompt->width())) + 22;
+    const std::size_t windowSizeY {30*boardWidth + 22 + playerPrompt->height() + restartGameButton->height()};
     std::cerr << windowSizeX << ' ' << windowSizeY << '\n';
     setFixedSize(windowSizeX, windowSizeY);
     updateGeometry();
